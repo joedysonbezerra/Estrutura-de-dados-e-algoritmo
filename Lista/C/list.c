@@ -16,7 +16,7 @@ typedef struct {
 
 void Erro();
 void Print();
-void Search();
+int Search();
 list *Create();
 int Empty(); 
 int Full(); 
@@ -41,7 +41,7 @@ list *Create() {
    return new;
 }
 
-void Search(list *object, char name[]) {
+int Search(list *object, char name[]) {
    for(int i = 0; i < (object->length); i++){
       if(strcmp(object->objects[i].name,name) == 0){
          printf("%s",object->objects[i].name);
