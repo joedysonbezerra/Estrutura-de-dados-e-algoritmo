@@ -14,13 +14,16 @@ typedef struct {
    struct product objects[MAX];
 }List;
 
-void erro();
-void print();
-void insert();
-int search();
 List *create();
+void insert();
+void remove();
+int search();
 int empty(); 
 int full(); 
+void print();
+void size();
+void erro();
+void kill();
 
 int main(int argc, char **argv) {
    
@@ -29,7 +32,9 @@ int main(int argc, char **argv) {
    insert(food, "Chocolate2", 3, 2);
    insert(food, "Chocolate3", 3, 2);
    insert(food, "Chocolate4", 3, 1);
+   size(food);
    print(food);
+   kill(food);
 
    return 0;
 }
@@ -121,6 +126,14 @@ void print(List *object) {
    }
 }
 
+void size(List *object) {
+   printf("O tamanho da lista é:%d\n",object->length);
+}
+
 void erro(char message[]) {
    printf("\033[31m %s\033[37m\n",message);
+}
+
+void kill(List *object) {
+   free(object);
 }
