@@ -16,7 +16,7 @@ typedef struct {
 
 List *create();
 void insert();
-void remove();
+void delete();
 int search();
 int empty(); 
 int full(); 
@@ -32,6 +32,15 @@ int main(int argc, char **argv) {
    insert(food, "Chocolate2", 3, 2);
    insert(food, "Chocolate3", 3, 2);
    insert(food, "Chocolate4", 3, 1);
+   print(food);
+   delete(food,1);
+   print(food);
+   delete(food,2);
+   print(food);
+   insert(food, "Chocolate3", 3, 2);
+   insert(food, "Chocolate4", 3, 2);
+   print(food);
+   delete(food,3);
    size(food);
    print(food);
    kill(food);
@@ -50,19 +59,18 @@ List *create() {
    return new;
 }
 
-void insert(List *object,char name[],int quantity,int type){
-   int result = full(object);
-   if(result == 1){
+void insert(List *object,char name[],int quantity,int type) {
+   if(full(object) == 1) {
       erro("Impossivel inserir !!!");
-   }else{
+   }else {
       switch (type){
          case 1: // Insere no começo
-            if(empty(object) == 1){
+            if(empty(object) == 1) {
                object->length++;
                object->objects[0].quantity = quantity;
                strcpy(object->objects[0].name,name);
             }else{
-               for(int i = (object->length - 1); i >= 0; i-- ){
+               for(int i = (object->length - 1); i >= 0; i-- ) {
                   object->objects[i+1].quantity = object->objects[i].quantity;
                   strcpy(object->objects[i+1].name,object->objects[i].name);
                }
@@ -71,11 +79,13 @@ void insert(List *object,char name[],int quantity,int type){
                object->length++;
             }
             break;
-            case 2: // Insere no final
-               object->length++;
-               object->objects[object->length-1].quantity = quantity;
-               strcpy(object->objects[object->length-1].name,name);
-               break;
+
+         case 2: // Insere no final
+            object->length++;
+            object->objects[object->length-1].quantity = quantity;
+            strcpy(object->objects[object->length-1].name,name);
+            break;
+
          default:
             erro("Não reconheço esse tipo de inserir dados!");
             printf("1- Inserir no começo | 2 - Inserir no final");
@@ -84,7 +94,45 @@ void insert(List *object,char name[],int quantity,int type){
 
    }
 
+}
 
+void delete(List *object,int type){
+   int position;
+   if(empty(object) == 1) {
+      erro("Impossivel remover !!!");
+   }else {
+      switch (type){
+         case 1: // remove no começo
+               for(int i = 1; i <= (object->length - 1); i++ ) {
+                  object->objects[i-1].quantity = object->objects[i].quantity;
+                  strcpy(object->objects[i-1].name,object->objects[i].name);
+               }
+               object->length--;
+            break;
+
+         case 2: // remove no final
+            object->length--;
+            break;
+         case 3: // remove em qualquer posição
+            printf("Posição:");
+            scanf("%d",&position);
+            printf("\n");
+
+            if(position < object->length){
+               for(int i = (position+1); i <= (object->length - 1); i++ ) {
+                  object->objects[i-1].quantity = object->objects[i].quantity;
+                  strcpy(object->objects[i-1].name,object->objects[i].name);
+               }
+               object->length--;
+            }
+            break;
+
+         default:
+            erro("Não reconheço esse tipo para remover dados!");
+            printf("1- remove no começo | 2 - remove no final");
+            break;
+      }
+   }
 }
 
 int search(List *object, char name[]) {
@@ -94,6 +142,7 @@ int search(List *object, char name[]) {
          return 1;
       };
    }
+
    erro("Não Encontrado !!!");
    return 0;
 }
@@ -115,13 +164,13 @@ int full(List *object) {
 
 void print(List *object) {
    int result = empty(object);
-   if(result != 1){
+   if(result != 1) {
       printf("|");
       for(int i = 0; i < (object->length); i++) {
          printf("Nome:%s Quantidade:%d |",object->objects[i].name,object->objects[i].quantity);
       }
       printf("\n");
-   }else{
+   }else {
       printf("A lista não possue dados para impressão\n");  
    }
 }
