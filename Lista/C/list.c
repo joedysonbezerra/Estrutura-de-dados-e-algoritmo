@@ -11,7 +11,7 @@ struct product {
 
 typedef struct { 
    int length;
-   struct product objects[MAX];
+   struct product products[MAX];
 }List;
 
 List *create();
@@ -67,23 +67,23 @@ void insert(List *object,char name[],int quantity,int type) {
          case 1: // Insere no começo
             if(empty(object) == 1) {
                object->length++;
-               object->objects[0].quantity = quantity;
-               strcpy(object->objects[0].name,name);
+               object->products[0].quantity = quantity;
+               strcpy(object->products[0].name,name);
             }else{
                for(int i = (object->length - 1); i >= 0; i-- ) {
-                  object->objects[i+1].quantity = object->objects[i].quantity;
-                  strcpy(object->objects[i+1].name,object->objects[i].name);
+                  object->products[i+1].quantity = object->products[i].quantity;
+                  strcpy(object->products[i+1].name,object->products[i].name);
                }
-               object->objects[0].quantity = quantity;
-               strcpy(object->objects[0].name,name);
+               object->products[0].quantity = quantity;
+               strcpy(object->products[0].name,name);
                object->length++;
             }
             break;
 
          case 2: // Insere no final
             object->length++;
-            object->objects[object->length-1].quantity = quantity;
-            strcpy(object->objects[object->length-1].name,name);
+            object->products[object->length-1].quantity = quantity;
+            strcpy(object->products[object->length-1].name,name);
             break;
 
          default:
@@ -104,8 +104,8 @@ void delete(List *object,int type){
       switch (type){
          case 1: // remove no começo
                for(int i = 1; i <= (object->length - 1); i++ ) {
-                  object->objects[i-1].quantity = object->objects[i].quantity;
-                  strcpy(object->objects[i-1].name,object->objects[i].name);
+                  object->products[i-1].quantity = object->products[i].quantity;
+                  strcpy(object->products[i-1].name,object->products[i].name);
                }
                object->length--;
             break;
@@ -118,10 +118,10 @@ void delete(List *object,int type){
             scanf("%d",&position);
             printf("\n");
 
-            if(position < object->length){
+            if(position < object->length) {
                for(int i = (position+1); i <= (object->length - 1); i++ ) {
-                  object->objects[i-1].quantity = object->objects[i].quantity;
-                  strcpy(object->objects[i-1].name,object->objects[i].name);
+                  object->products[i-1].quantity = object->products[i].quantity;
+                  strcpy(object->products[i-1].name,object->products[i].name);
                }
                object->length--;
             }
@@ -137,8 +137,8 @@ void delete(List *object,int type){
 
 int search(List *object, char name[]) {
    for(int i = 0; i < (object->length); i++) {
-      if(strcmp(object->objects[i].name,name) == 0) {
-         printf("Nome:%s\nQuantidade:%d\n",object->objects[i].name,object->objects[i].quantity);
+      if(strcmp(object->products[i].name,name) == 0) {
+         printf("Nome:%s\nQuantidade:%d\n",object->products[i].name,object->products[i].quantity);
          return 1;
       };
    }
@@ -167,7 +167,7 @@ void print(List *object) {
    if(result != 1) {
       printf("|");
       for(int i = 0; i < (object->length); i++) {
-         printf("Nome:%s Quantidade:%d |",object->objects[i].name,object->objects[i].quantity);
+         printf("Nome:%s Quantidade:%d |",object->products[i].name,object->products[i].quantity);
       }
       printf("\n");
    }else {
