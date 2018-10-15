@@ -34,7 +34,7 @@ Node *insert (Node *list, char name[10], int quantity) {
    Node *new = (Node*) malloc(sizeof(Node)); 
    strcpy(new->products.name,name);
    new->products.quantity = quantity;
-   new->next = list;
+   new->next = (struct Node*) list;
    return new;
 }
 
@@ -46,7 +46,7 @@ void print (Node *list) {
    }
    while(pointer != NULL){
       printf("Produto: Nome:%s  Quantidade:%d\n", pointer->products.name, pointer->products.quantity);
-      pointer = pointer->next;
+      pointer = (Node*) pointer->next;
    }
 }
 
