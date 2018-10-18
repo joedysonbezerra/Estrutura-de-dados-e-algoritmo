@@ -13,6 +13,7 @@ typedef struct {
 }Node;
 
 Node *insert ();
+Node *removeNode ();
 void print ();
 int empty ();
 void erro();
@@ -23,6 +24,8 @@ int main (int argc, char **argv) {
    list = insert(list,"Abacaxi",4);
    list = insert(list,"axi",4);
    list = insert(list,"Aba",4);
+   print(list);
+   list = removeNode(list,"axi");
 
    print(list);
 
@@ -48,6 +51,22 @@ void print (Node *list) {
       printf("Produto: Nome:%s  Quantidade:%d\n", pointer->products.name, pointer->products.quantity);
       pointer = (Node*) pointer->next;
    }
+}
+
+Node* removeNode(Node *list, char name[10]) {
+   Node *p = list;
+   Node *prior = NULL;
+   while(p != NULL && (strcmp(p->products.name,name) != 0)) {
+      prior = p;
+      p = (Node*) p->next;
+   }
+   if(empty(p)){
+      return list;
+   }else{
+      prior->next = p->next;
+   }
+   free(p);
+   return list;
 }
 
 int empty (Node *list) {
