@@ -26,6 +26,8 @@ int main(int argc, char **argv) {
 
    print(tree);
 
+   return 0;
+
 }
 BinaryTree *create() {
    return NULL;
