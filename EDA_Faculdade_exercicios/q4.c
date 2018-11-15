@@ -6,7 +6,83 @@
 // As chaves do catálogo são os nomes dos arquivos.
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
-int main(int argc, char **argv){
+struct archive {
+   char name[30];
+   int size;
+   int date_Of_Last_Acess;
+};
 
+typedef struct node {
+   struct archive docs;
+   struct node *left;
+   struct node *right;
+}BinaryTree;
+
+BinaryTree *insert();
+int isEmpty();
+void erro();
+void print();
+
+int main(int argc, char **argv) {
+   BinaryTree *archivesSystem = NULL;
+
+   archivesSystem = insert(archivesSystem, "jj", 18, 203918);
+   archivesSystem = insert(archivesSystem, "cc", 17, 203913);
+   archivesSystem = insert(archivesSystem, "bb", 16, 203912);
+   archivesSystem = insert(archivesSystem, "aa", 15, 203911);
+   archivesSystem = insert(archivesSystem, "ee", 14, 203910);
+   archivesSystem = insert(archivesSystem, "dd", 13, 203919);
+   archivesSystem = insert(archivesSystem, "ff", 13, 203910);
+   archivesSystem = insert(archivesSystem, "ii", 13, 203919);
+   archivesSystem = insert(archivesSystem, "hh", 13, 203960);
+   archivesSystem = insert(archivesSystem, "tt", 13, 203960);
+   archivesSystem = insert(archivesSystem, "uu", 13, 203960);
+   archivesSystem = insert(archivesSystem, "oo", 13, 203960);
+
+
+   print(archivesSystem);
+   return 0;
+}
+
+BinaryTree *insert(BinaryTree *base, char name[30], int size, int date_Of_Last_Acess) {
+   
+   if(isEmpty(base)) {
+         base = (BinaryTree*) malloc(sizeof(BinaryTree));
+      if(base == NULL) {
+         erro("Erro na criação da Arvore Binaria");
+      }else{
+         strcpy(base->docs.name,name);
+         base->docs.size = size;
+         base->docs.date_Of_Last_Acess = date_Of_Last_Acess;
+         base->left = NULL;
+         base->right = NULL;
+      }
+   }else if (strcmp(base->docs.name,name) > 0) {
+      base->left = insert(base->left, name, size, date_Of_Last_Acess);
+   }else if (strcmp(base->docs.name,name) < 0) {
+      base->right = insert(base->right, name, size, date_Of_Last_Acess);
+   }else{
+      erro("Erro na inserção na arvore");
+   }
+
+   return base;
+
+}
+
+void print(BinaryTree *base){
+   if(!isEmpty(base)){
+      printf("%s->",base->docs.name);
+      print(base->left);
+      print(base-> right);
+   }
+}
+
+int isEmpty(BinaryTree *base) {
+   return (base == NULL);
+}
+void erro(char message[]) {
+   printf("%s\n",message);
 }
