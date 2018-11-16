@@ -123,10 +123,10 @@ BinaryTree *delete(BinaryTree *base,int data) {
       base = base->left;
       free(aux);
    }else {
-			BinaryTree *aux = base->right;
+         BinaryTree *aux = base->right;
          int auxDate = base->docs.date_Of_Last_Acess;
-			while(aux->left != NULL) {
-				aux = aux->left;
+         while(aux->left != NULL) {
+            aux = aux->left;
          }
          strcpy(base->docs.name, aux->docs.name);
          base->docs.size = aux->docs.size;
