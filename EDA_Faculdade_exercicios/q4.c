@@ -35,13 +35,13 @@ int main(int argc, char **argv) {
    archivesSystem = insert(archivesSystem, "cc", 17, 203913);
    archivesSystem = insert(archivesSystem, "bb", 16, 200);
    archivesSystem = insert(archivesSystem, "aa", 15, 203911);
-   archivesSystem = insert(archivesSystem, "ee", 14, 200);
-   archivesSystem = insert(archivesSystem, "dd", 13, 203910);
+   archivesSystem = insert(archivesSystem, "ee", 14, 200000);
+   archivesSystem = insert(archivesSystem, "dd", 13, 203);
    archivesSystem = insert(archivesSystem, "ff", 13, 203910);
    archivesSystem = insert(archivesSystem, "ii", 13, 203919);
    archivesSystem = insert(archivesSystem, "hh", 13, 203960);
    archivesSystem = insert(archivesSystem, "tt", 13, 203960);
-   archivesSystem = insert(archivesSystem, "vv", 13, 300000);
+   archivesSystem = insert(archivesSystem, "vv", 13, 200);
    archivesSystem = insert(archivesSystem, "oo", 13, 203960);
    archivesSystem = insert(archivesSystem, "pp", 13, 200000);
    archivesSystem = insert(archivesSystem, "uu", 13, 203960);
@@ -101,18 +101,19 @@ void erro(char message[]) {
 BinaryTree *searchremove(BinaryTree *base,int data) {
    if(!isEmpty(base)) {
       if(base->docs.date_Of_Last_Acess < data) {
-        base = delete(base);
+        base = delete(base,data);
+      }else{
+         base->left = searchremove(base->left, data);
+         base->right = searchremove(base->right,data);
       }
-      base->left = searchremove(base->left, data);
-      base->right = searchremove(base->right,data);
    }
    return base;
 }
 
-BinaryTree *delete(BinaryTree *base) {
+BinaryTree *delete(BinaryTree *base,int data) {
    if(isEmpty(base->left) && isEmpty(base->right)) {
-      BinaryTree *aux = NULL;
-      base = aux;
+      free(base);
+      base = NULL;
    }else if(isEmpty(base->left)) {
       BinaryTree *aux = base;
       base = base->right;
@@ -123,13 +124,16 @@ BinaryTree *delete(BinaryTree *base) {
       free(aux);
    }else {
 			BinaryTree *aux = base->right;
+         int auxDate = base->docs.date_Of_Last_Acess;
 			while(aux->left != NULL) {
 				aux = aux->left;
          }
          strcpy(base->docs.name, aux->docs.name);
          base->docs.size = aux->docs.size;
          base->docs.date_Of_Last_Acess = aux->docs.date_Of_Last_Acess;
-         base->right = delete(base->right);
+         aux->docs.date_Of_Last_Acess = auxDate;
+         base->right = searchremove(base->right,data);
+         free(aux);
 }
 
    return base;
