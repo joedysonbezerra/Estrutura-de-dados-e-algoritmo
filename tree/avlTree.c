@@ -1,7 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
 
-
 typedef struct Node {
    int value;
    int fb;
@@ -18,16 +17,10 @@ int isEmpty();
 int main(int argc, char **argv) {
    BinaryTree *tree = create();
    tree = insert(tree,10);
-   tree = insert(tree,20);
-   tree = insert(tree,30);
-   tree = rotation(tree);
-   printf("\n");
-   print(tree);
    tree = insert(tree,5);
-   tree = insert(tree,4);
+   tree = insert(tree,3);
+   tree = insert(tree,6);
 
-   tree = rotation(tree);
-   printf("\n");
    print(tree);
 
    return 0;
@@ -57,26 +50,24 @@ BinaryTree *insert(BinaryTree *base, int pValue) {
          base->fb = 0;
       }
    }else if(pValue < base->value) {
-      if(isEmpty(base->left)) {
          base->left = insert(base->left,pValue);
-         base->fb--;
-      } 
+         base->fb++; 
       }else {
          base->right = insert(base->right,pValue);
-         base->fb++;
+         base->fb--;
    }
-
+   base = rotation(base);
    return base;
 }
 
 BinaryTree *rotation(BinaryTree *base) {
    BinaryTree *aux;
-   if(base->fb > 1) {
+   if(base->fb < -1) {
       aux = base->right;
       base->right = base->right->left;
       aux->left = base;
       base = aux;
-   }else if(base->fb < -1) {
+   }else if(base->fb > 1) {
       aux = base->left;
       base->left = base->left->right;
       aux->right = base;
