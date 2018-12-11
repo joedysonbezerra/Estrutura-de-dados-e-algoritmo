@@ -139,7 +139,7 @@ int isEmpty(AvlTree *list) {
 }
 
 void printErro(char message[]) {
-   printf("%s\n",message);
+   printf("\033[31m %s\033[37m\n",message);
 }
 
 void printList(AvlTree *list) {
