@@ -6,10 +6,6 @@ struct contact {
    char name[40];
    int phone;
 };
-struct balanceFactor {
-
-};
-
 typedef struct node {
    struct contact newContact;
    int heightLeft;
