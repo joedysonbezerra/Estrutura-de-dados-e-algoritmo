@@ -18,13 +18,14 @@ AvlTree *create();
 AvlTree *rotateRight();
 AvlTree *rotateLeft();
 AvlTree *insert();
+AvlTree *search();
+AvlTree *delete();
 int isEmpty();
-int search();
 int calcHeight();
 int calcBalanceFactor();
 AvlTree *balancing(AvlTree *list);
-void printErro();
 void printList(AvlTree *list);
+void printErro();
 
 int main(int argc, char **argv) {
    AvlTree *contactList = create();
@@ -36,6 +37,8 @@ int main(int argc, char **argv) {
    contactList = insert(contactList,"Bruno",94493092);
    contactList = insert(contactList,"Adriano",98453092);
    contactList = insert(contactList,"Elivelton",98495092);
+   printf("%s\n",(search(contactList,"Joedyson")->newContact.name));
+   contactList = delete(contactList,"Joedyson");
    printList(contactList);
    return 0;
 }
@@ -45,9 +48,6 @@ AvlTree *create() {
    return NULL;
 }
 
-//Inserindo Contato na AVl
-//Entrada de dados: Arvore, nome do contato , telefone do contato
-//Saida de dados: Lista de contatos(Ordenado pelo nome)
 AvlTree *insert(AvlTree *list, char pName[], int pPhone) {
    if(isEmpty(list)) {
       list = (AvlTree *) malloc(sizeof(AvlTree));
@@ -144,4 +144,52 @@ void printList(AvlTree *list) {
       printf("Nome:%s\n Telefone:%d\n\n",list->newContact.name,list->newContact.phone);
       printList(list->right);
    }
+}
+
+AvlTree *search(AvlTree *base,char name[40]) {
+   if(!isEmpty(base)) {
+      if(strcmp(base->newContact.name,name) == 0) {
+        return base;
+      }else if(strcmp(base->newContact.name,name) > 0){
+         search(base->left,name);
+      }else {
+         search(base->right,name);
+      }
+   }
+}
+
+AvlTree *delete(AvlTree *base,char name[]) {
+   if(base == NULL){
+      return NULL;  
+   }else if(strcmp(base->newContact.name,name) > 0){
+      base->left = delete(base->left,name);
+   }else if(strcmp(base->newContact.name,name) < 0){
+      base->right = delete(base->right,name);
+   }else{
+   if(isEmpty(base->left) && isEmpty(base->right)) {
+      base = NULL;
+      free(base);
+   }else if(isEmpty(base->left)) {
+      AvlTree *aux = base;
+      base = base->right;
+      free(aux); 
+   }else if(isEmpty(base->right)) {
+      AvlTree *aux = base;
+      base = base->left;
+      free(aux);
+   }else {
+         AvlTree *aux = base->right;
+         while(aux->left != NULL) {
+            aux = aux->left;
+         }
+         strcpy(base->newContact.name,aux->newContact.name);
+         strcpy(aux->newContact.name,name);
+         base->newContact.phone = aux->newContact.phone;
+         base->right = delete(base->right,name);
+         
+         free(aux);
+   }
+}
+
+   return base;
 }
