@@ -4,25 +4,18 @@ function partition(array,first,last){
    while ( first < last ){
        while ( array[first] < pivot ){
           first++;
-          console.log("1º");
-          console.log(array);
-          console.log(first);
        };
        while ( array[last] > pivot ){
           last--;
-          console.log("2º");
-          console.log(array);
-          console.log(last);
+
        }
        if (array[first] == array[last] ){
-         console.log("3º");
-         console.log(array);
-         console.log(first);
+
       }else if ( first < last ) {
            let aux = array[first];
            array[first] = array[last];
            array[last] = aux;
-           console.log(array);
+
        }
    }
    

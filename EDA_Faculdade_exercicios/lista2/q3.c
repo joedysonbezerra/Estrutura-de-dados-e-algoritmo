@@ -21,7 +21,7 @@ void print();
 void erro();
 void insertionSort();
 void mergeSort();
-void intercala();
+void merge();
 
 
 int main(int argc, char **argv){
@@ -30,6 +30,7 @@ int main(int argc, char **argv){
    insert(data, 5, 5);
    insert(data, 23, 23);
    insert(data, 21, 21);
+   insert(data, 50, 50);
    insert(data, 10, 10);
    insert(data, 40, 40);
 
@@ -119,11 +120,11 @@ void mergeSort(List *data, int first, int last){
         int middle = (( first + last) / 2);
         mergeSort(data, first, middle);
         mergeSort(data, (middle + 1), last);
-        intercala(data, first, last, middle);
+        merge(data, first, last, middle);
 
 }
 
-void intercala(List *data, int first, int last, int middle){
+void merge(List *data, int first, int last, int middle){
    int i, j, k;
    int a_size = middle-first+1;
    int b_size = last-middle;
