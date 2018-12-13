@@ -157,6 +157,24 @@ AvlTree *search(AvlTree *base,char name[40]) {
       }
    }
 }
+AvlTree *updateFB(AvlTree *list) {
+   if(!isEmpty(list)){
+      list->left = updateFB(list->left);
+      if(isEmpty(list->left)) {
+         list->heightLeft = 0;
+      }else {
+         list->heightLeft = calcHeight(list->left->heightRight,list->left->heightLeft);;
+      }
+      list->right = updateFB(list->right);
+      if(isEmpty(list->right)) {
+         list->heightRight = 0;
+      }else {
+         list->heightRight = calcHeight(list->right->heightRight,list->right->heightLeft);;
+      }
+      list = balancing(list);
+   }
+   return list;
+}
 
 AvlTree *delete(AvlTree *base,char name[]) {
    if(base == NULL){
@@ -190,6 +208,7 @@ AvlTree *delete(AvlTree *base,char name[]) {
          free(aux);
    }
 }
-
+   base = updateFB(base);
    return base;
 }
+
