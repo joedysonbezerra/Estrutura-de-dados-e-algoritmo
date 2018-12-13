@@ -20,8 +20,9 @@ class Network{
 	}
 	searchFriends(nome){
 		const index = this.peopleReference.indexOf(nome);
-		if(index != 1){
+		if(index < 0){
 			console.log("Essa pessoa não existe na nossa rede social");
+			return;
 		}
 		const aux = [];
 
@@ -33,7 +34,15 @@ class Network{
 		console.log("Os amigos de " + nome + " são " + aux);	
 	}
 	snapshotGraph(){
-		console.log(this.friendsNetwork);
+		for(let i = 0; i < this.peopleReference.length; i++){
+			for(let j = 0; j < this.peopleReference.length; j++){
+				if(this.friendsNetwork[i][j] == 1){
+					this.friendsNetwork[i][j] = (this.peopleReference[j]);
+				}
+
+			}
+		}
+	console.log(this.friendsNetwork);
 	}
 	snapshotArray(){
 		//Não sei !!!
@@ -51,6 +60,7 @@ newNetwork.follow("Jonatan","Jorge");
 newNetwork.follow("Elivelton","Jorge");
 newNetwork.follow("Jorge","Carvalho");
 newNetwork.searchFriends("Joédyson");
+newNetwork.searchFriends("Jonatan");
 newNetwork.snapshotGraph();
 
 

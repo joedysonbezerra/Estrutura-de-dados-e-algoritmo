@@ -20,6 +20,8 @@ int full();
 void print();
 void erro();
 void insertionSort();
+void mergeSort();
+void intercala();
 
 
 int main(int argc, char **argv){
@@ -33,6 +35,7 @@ int main(int argc, char **argv){
 
    print(data);
    insertionSort(data);
+   //mergeSort(data,0,(data->length-1));
    print(data);
 
 }
@@ -103,11 +106,47 @@ void insertionSort(List *data) {
         pivotValue = data->sensors[i].value;
         j = i-1;
         while(j >= 0 && data->sensors[j].date > pivotDate){
-            data->sensors[j+1].date = data->sensors[j].date;
-            data->sensors[j+1].value = data->sensors[j].value;
+            data->sensors[j+1] = data->sensors[j];
             j--;
         }
         data->sensors[j+1].date = pivotDate;
         data->sensors[j+1].value = pivotValue;
     }
+}
+
+void mergeSort(List *data, int first, int last){
+        if (first == last) return;
+        int middle = (( first + last) / 2);
+        mergeSort(data, first, middle);
+        mergeSort(data, (middle + 1), last);
+        intercala(data, first, last, middle);
+
+}
+
+void intercala(List *data, int first, int last, int middle){
+   int i, j, k;
+   int a_size = middle-first+1;
+   int b_size = last-middle;
+   List *a = (List*) malloc(sizeof(List) * a_size);
+   List *b = (List*) malloc(sizeof(List) * b_size);
+   for (i = 0; i < a_size; i++){
+      a->sensors[i] = data->sensors[i+first];
+   } 
+      
+   for (i = 0; i < b_size; i++) {
+      b->sensors[i] = data->sensors[i+middle+1];
+   }
+   for (i = 0, j = 0, k = first; k <= last; k++) {
+      if (i == a_size){
+         data->sensors[k] = b->sensors[j++];
+      } 
+      else if (j == b_size){
+         data->sensors[k]  = a->sensors[i++];
+      }else if ( a->sensors[i].date < b->sensors[j].date){
+         data->sensors[k] = a->sensors[i++];
+      } else{
+         data->sensors[k] = b->sensors[j++];   
+      } 
+   }
+   free(a); free(b);
 }
